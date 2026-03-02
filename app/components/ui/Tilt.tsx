@@ -1,49 +1,66 @@
 "use client";
 
-import { ReactNode } from "react";
-import { motion, useMotionValue, useTransform, type MotionProps } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { ReactNode, MouseEvent } from "react";
+import { cn } from "@/lib/utils";
 
-export interface TiltProps extends MotionProps {
-  children: ReactNode;
-  rotationFactor?: number;
-  springOptions?: any;
-  isFullRotation?: boolean;
+interface TiltProps {
+    children: ReactNode;
+    className?: string;
+    rotationIntensity?: number;
+    isStatic?: boolean;
 }
 
-export default function Tilt({
-  children,
-  rotationFactor = 6,
-  springOptions = { stiffness: 150, damping: 20 },
-  isFullRotation = false,
+export function Tilt({
+    children,
+    className,
+    rotationIntensity = 15, // Degrees of tilt
+    isStatic = false
 }: TiltProps) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
 
-  const rotateX = useTransform(y, [-1, 1], [rotationFactor, -rotationFactor]);
-  const rotateY = useTransform(x, [-1, 1], [-rotationFactor, rotationFactor]);
+    const mouseX = useSpring(x, { stiffness: 150, damping: 20 });
+    const mouseY = useSpring(y, { stiffness: 150, damping: 20 });
 
-  return (
-    <motion.div
-      style={{
-        rotateX,
-        rotateY,
-      }}
-      onMouseMove={(e) => {
+    function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
+        if (isStatic) return;
+
         const rect = e.currentTarget.getBoundingClientRect();
-        const xPos = (e.clientX - rect.left) / rect.width;
-        const yPos = (e.clientY - rect.top) / rect.height;
+        const width = rect.width;
+        const height = rect.height;
 
-        x.set(xPos * 2 - 1);
-        y.set(yPos * 2 - 1);
-      }}
-      onMouseLeave={() => {
+        const mouseXPos = e.clientX - rect.left;
+        const mouseYPos = e.clientY - rect.top;
+
+        const xPct = mouseXPos / width - 0.5;
+        const yPct = mouseYPos / height - 0.5;
+
+        x.set(xPct);
+        y.set(yPct);
+    }
+
+    function handleMouseLeave() {
+        if (isStatic) return;
         x.set(0);
         y.set(0);
-      }}
-      transition={springOptions}
-      className="will-change-transform"
-    >
-      {children}
-    </motion.div>
-  );
+    }
+
+    const rotateX = useTransform(mouseY, [-0.5, 0.5], [rotationIntensity, -rotationIntensity]);
+    const rotateY = useTransform(mouseX, [-0.5, 0.5], [-rotationIntensity, rotationIntensity]);
+
+    return (
+        <motion.div
+            style={{
+                rotateX: isStatic ? 0 : rotateX,
+                rotateY: isStatic ? 0 : rotateY,
+                transformStyle: "preserve-3d",
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className={cn("relative will-change-transform", className)}
+        >
+            {children}
+        </motion.div>
+    );
 }

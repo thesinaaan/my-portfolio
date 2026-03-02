@@ -1,79 +1,67 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import ProjectCard from "../ui/ProjectCard";
-
-const ScrollStack = dynamic(
-  () => import("../widgets/ScrollStack").then((m) => m.default),
-  { ssr: false }
-);
-
-const ScrollStackItem = dynamic(
-  () => import("../widgets/ScrollStack").then((m) => m.ScrollStackItem),
-  { ssr: false }
-);
-
-const featuredProjects = [
-  {
-    title: "E-Commerce Platform",
-    description: "High-performance storefront with refined UX.",
-    image: "/images/ecommerce.jpg",
-    tech: ["Next.js", "Tailwind", "Stripe"],
-    href: "/projects/ecommerce",
-  },
-  {
-    title: "Developer Portfolio",
-    description: "Cinematic portfolio with disciplined motion.",
-    image: "/images/portfolio.jpg",
-    tech: ["Next.js", "Framer Motion"],
-    href: "/projects/portfolio",
-  },
-  {
-    title: "Dashboard System",
-    description: "Internal tools focused on clarity and speed.",
-    image: "/images/dashboard.jpg",
-    tech: ["React", "Node.js"],
-    href: "/projects/dashboard",
-  },
-];
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { PROJECTS } from "@/lib/data";
+import HomeProjectCard from "../ui/HomeProjectCard";
 
 export default function FeaturedProjects() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-32 md:px-6">
-      {/* Header */}
-      <div className="mb-20 space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-500">
-          Featured Work
-        </p>
-        <h2 className="text-3xl md:text-4xl font-semibold text-neutral-100">
-          Featured projects
-        </h2>
-        <p className="max-w-xl text-neutral-400">
-          A focused set of projects that represent how I think and build.
-        </p>
-      </div>
+    <section className="relative w-full py-24 md:py-32 overflow-hidden">
+      <div className="container mx-auto max-w-7xl px-6">
 
-      {/* ===== ScrollStack (desktop only) ===== */}
-      <div className="relative min-h-screen hidden md:block">
-        <ScrollStack>
-          {featuredProjects.map((project) => (
-            <ScrollStackItem key={project.title}>
-              <div className="h-[420px] flex items-center">
-                <ProjectCard {...project} />
-              </div>
-            </ScrollStackItem>
+        {/* Header */}
+        <div className="mb-12 md:mb-20 flex items-end justify-between">
+          <div className="space-y-4">
+            <span className="text-cyan-400 font-mono text-xs tracking-[0.2em] uppercase">
+              System Architecture
+            </span>
+            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight">
+              SELECTED <span className="text-white/30">WORK</span>
+            </h2>
+          </div>
+          <Link href="/projects" className="hidden md:flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm font-mono tracking-widest uppercase">
+            View Archive <ArrowUpRight size={14} />
+          </Link>
+        </div>
+
+        {/* Desktop Grid / Mobile Scroll */}
+        <div className="
+            flex md:grid 
+            overflow-x-auto md:overflow-visible 
+            snap-x md:snap-none 
+            gap-6 md:grid-cols-2 lg:grid-cols-3 
+            pb-8 md:pb-0 
+            -mx-6 px-6 md:mx-0 md:px-0 
+            scrollbar-hide
+        ">
+          {PROJECTS.map((project, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className="flex-shrink-0 w-[85vw] md:w-auto snap-center"
+            >
+              <HomeProjectCard
+                title={project.title}
+                category={project.category}
+                image={project.image}
+                href={`/projects/${project.slug}`}
+              />
+            </motion.div>
           ))}
-        </ScrollStack>
-      </div>
+        </div>
 
-      {/* ===== SCROLL RELEASE ZONE (IMPORTANT) ===== */}
-      <div className="hidden md:block h-[60vh]" />
+        {/* Mobile View Archive Button */}
+        <div className="mt-8 md:hidden text-center">
+          <Link href="/projects" className="inline-flex items-center gap-2 text-white/60 text-sm font-mono tracking-widest uppercase">
+            View Archive <ArrowUpRight size={14} />
+          </Link>
+        </div>
 
-      {/* ===== Mobile fallback ===== */}
-      <div className="grid gap-8 md:hidden">
-        {featuredProjects.map((project) => (
-          <ProjectCard key={project.title} {...project} />
-        ))}
       </div>
     </section>
   );
