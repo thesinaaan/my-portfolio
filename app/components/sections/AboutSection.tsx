@@ -1,197 +1,203 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { Glass } from "../ui/Glass";
+import { MotionSection } from "../ui/MotionSection";
+import { SplitText } from "../ui/SplitText";
+import { VARIANTS } from "@/lib/motion/constants";
+import { Download, Cpu, History, Globe } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 /* ===================== DATA ===================== */
+
+const experience = [
+  {
+    year: "2023 - PRESENT",
+    role: "Senior Full Stack Engineer",
+    company: "STEALTH STARTUP",
+    description: "Architecting decentralized application layers and high-performance UI systems.",
+  },
+  {
+    year: "2021 - 2023",
+    role: "Product Engineer",
+    company: "DIGITAL AGENCY",
+    description: "Led development of award-winning marketing sites and e-commerce platforms.",
+  },
+  {
+    year: "2019 - 2021",
+    role: "UI/UX Developer",
+    company: "FREELANCE",
+    description: "Crafted bespoke digital identities for global brands and creative studios.",
+  },
+];
 
 const skills = [
   {
     title: "Core Expertise",
-    body: "Next.js applications, UI systems, scalable component architecture, motion.",
+    body: "Next.js applications, scalable component architecture, physics-based motion.",
   },
   {
     title: "Tech Stack",
-    body: "Next.js, React, TypeScript, Tailwind CSS, Framer Motion.",
+    body: "Next.js, React, TypeScript, Tailwind CSS, Framer Motion, Three.js.",
   },
   {
-    title: "Engineering Principles",
+    title: "Engineering",
     body: "Predictable systems, clean abstractions, long-term maintainability.",
   },
   {
     title: "Product Focus",
-    body: "Clarity, performance, and interactions that feel intentional.",
+    body: "Clarity, performance, and interactions that feel inevitable.",
   },
 ];
 
-const strengths = [
-  {
-    title: "Production-Ready Thinking",
-    body: "I build with real users and future scaling in mind — not just visuals.",
-  },
-  {
-    title: "Modern, Maintainable Code",
-    body: "Clear structure and reusable patterns that teams can extend safely.",
-  },
-  {
-    title: "Collaborative Process",
-    body: "Clear communication, feedback loops, and steady progress.",
-  },
-  {
-    title: "Reliable Delivery",
-    body: "Consistent timelines and transparency from start to finish.",
-  },
-];
+/* ===================== COMPONENTS ===================== */
 
-/* ===================== COMPONENT ===================== */
+function FloatingOrb() {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  // Smooth spring physics for the orb
+  const springX = useSpring(x, { stiffness: 50, damping: 20 });
+  const springY = useSpring(y, { stiffness: 50, damping: 20 });
+
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => {
+      x.set(e.clientX - window.innerWidth / 2);
+      y.set(e.clientY - window.innerHeight / 2);
+    };
+    window.addEventListener("mousemove", handleMove);
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, [x, y]);
+
+  return (
+    <motion.div
+      style={{ x: springX, y: springY }}
+      className="fixed top-1/2 left-1/2 w-[600px] h-[600px] bg-cyan-500/10 blur-[100px] rounded-full pointer-events-none -translate-x-1/2 -translate-y-1/2 z-0 mix-blend-screen"
+    />
+  );
+}
 
 export default function AboutSection() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-24 md:px-6 space-y-20">
-      {/* ===================== ABOUT HEADER ===================== */}
-      <div className="space-y-3">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-500"
-        >
-          About
-        </motion.p>
+    <section className="relative min-h-screen pt-40 pb-32 px-6 overflow-hidden">
 
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.7 }}
-          className="max-w-3xl text-3xl font-semibold leading-snug text-neutral-50 md:text-4xl"
-        >
-          I design and build interfaces with clarity, motion, and product-level
-          discipline.
-        </motion.h2>
-      </div>
+      <FloatingOrb />
 
-      {/* ===================== INTRO CARD ===================== */}
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-7 backdrop-blur-2xl"
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-indigo-500/10" />
+      <div className="container mx-auto max-w-5xl space-y-32 relative z-10">
 
-        <div className="relative space-y-4 text-sm leading-relaxed text-neutral-300 md:text-base">
-          <p>
-            I’m a front-end developer focused on building clean, scalable web
-            applications. I care deeply about structure, performance, and how
-            interfaces feel in real use.
-          </p>
+        {/* ===================== HEADER ===================== */}
+        <MotionSection className="space-y-12">
+          <div className="space-y-6">
+            <motion.div variants={VARIANTS.floatIn} className="flex items-center gap-4">
+              <div className="h-[1px] w-12 bg-white/20" />
+              <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-white/40">
+                Mission Briefing
+              </span>
+            </motion.div>
 
-          <p>
-            My work emphasizes clarity over complexity — reusable components,
-            thoughtful spacing, and motion that supports usability rather than
-            distracting from it.
-          </p>
-        </div>
-      </motion.div>
+            <SplitText
+              text="Designing for the vacuum"
+              tag="h1"
+              className="text-4xl md:text-6xl lg:text-7xl font-sans font-medium text-white leading-[0.95] tracking-tight"
+            />
+            <SplitText
+              text="of space."
+              tag="h1"
+              className="text-4xl md:text-6xl lg:text-7xl font-sans font-medium text-white/40 leading-[0.95] tracking-tight"
+            />
+          </div>
 
-      {/* ===================== SKILLS ===================== */}
-      <div className="space-y-3">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-500"
-        >
-          Skills
-        </motion.p>
-
-        <motion.h3
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.7 }}
-          className="text-2xl font-semibold text-neutral-100"
-        >
-          What I focus on
-        </motion.h3>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.7 }}
-          className="max-w-xl text-sm text-neutral-400 md:text-base"
-        >
-          The areas where I consistently deliver the most value.
-        </motion.p>
-      </div>
-
-      {/* ===================== SKILLS GRID ===================== */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {skills.map((item, i) => (
-          <motion.div
-            key={item.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.12, duration: 0.7 }}
-            className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl transition-transform hover:-translate-y-1"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] via-transparent to-indigo-500/10" />
-
-            <div className="relative space-y-2">
-              <p className="text-xs uppercase tracking-[0.25em] text-neutral-400">
-                {item.title}
-              </p>
-              <p className="text-sm text-neutral-200">{item.body}</p>
+          <div className="grid md:grid-cols-12 gap-12">
+            <div className="md:col-span-8">
+              <motion.div variants={VARIANTS.floatIn} className="text-xl md:text-2xl text-neutral-400 font-light leading-relaxed space-y-8">
+                <p>
+                  I build front-end systems that feel vast yet controlled. My work prioritizes
+                  architectural stability, calm motion, and deep immersive atmosphere.
+                </p>
+                <p>
+                  Every animation is calculated. Every interaction is engineered.
+                  There is no noise in the signal.
+                </p>
+              </motion.div>
             </div>
-          </motion.div>
-        ))}
-      </div>
 
-      {/* ===================== WHY WORK WITH ME ===================== */}
-      <div className="space-y-3 pt-10">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-500"
-        >
-          Working Together
-        </motion.p>
-
-        <motion.h3
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1, duration: 0.7 }}
-          className="text-2xl font-semibold text-neutral-100 md:text-3xl"
-        >
-          What you can expect
-        </motion.h3>
-      </div>
-
-      {/* ===================== STRENGTHS ===================== */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {strengths.map((item, i) => (
-          <motion.div
-            key={item.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.12, duration: 0.7 }}
-            className="relative rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl"
-          >
-            <div className="relative space-y-2">
-              <p className="font-medium text-neutral-100">{item.title}</p>
-              <p className="text-sm text-neutral-300">{item.body}</p>
+            <div className="md:col-span-4 flex justify-end items-start">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                variants={VARIANTS.floatIn}
+              >
+                <Glass intensity="subtle" className="rounded-full px-8 py-4 flex items-center gap-3 text-sm text-white uppercase tracking-widest font-bold border-white/10 hover:bg-white/5 cursor-pointer transition-colors">
+                  <Download size={16} />
+                  <span>Resume</span>
+                </Glass>
+              </motion.div>
             </div>
+          </div>
+        </MotionSection>
+
+        {/* ===================== TIMELINE EXPERIENCE ===================== */}
+        <MotionSection className="space-y-12">
+          <motion.div variants={VARIANTS.floatIn} className="flex items-center gap-3 mb-12">
+            <History className="text-white/60" size={20} />
+            <h2 className="text-2xl font-light text-white">Operational History</h2>
           </motion.div>
-        ))}
+
+          <div className="relative border-l border-white/10 ml-3 md:ml-6 space-y-12 pl-8 md:pl-12">
+            {experience.map((job, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.2 }}
+                className="relative"
+              >
+                {/* Dot */}
+                <div className="absolute -left-[41px] md:-left-[57px] top-2 w-4 h-4 rounded-full bg-black border-2 border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
+
+                <div className="space-y-2 mb-2">
+                  <span className="text-xs font-mono text-cyan-400 tracking-widest uppercase">
+                    {job.year}
+                  </span>
+                  <h3 className="text-xl md:text-2xl font-bold text-white">
+                    {job.role}
+                  </h3>
+                  <div className="text-sm font-mono text-white/40 uppercase tracking-widest">
+                    {job.company}
+                  </div>
+                </div>
+                <p className="text-neutral-400 max-w-xl leading-relaxed">
+                  {job.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </MotionSection>
+
+        {/* ===================== SKILLS GRID ===================== */}
+        <MotionSection className="space-y-12">
+          <motion.div variants={VARIANTS.floatIn} className="flex items-center gap-3">
+            <Cpu className="text-white/60" size={20} />
+            <h2 className="text-2xl font-light text-white">Core Systems</h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {skills.map((item, i) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Glass intensity="subtle" className="p-8 h-full border-white/5 hover:border-cyan-500/20 hover:bg-white/5 transition-all duration-500">
+                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-white/80 mb-4">{item.title}</h3>
+                  <p className="text-white/50 leading-relaxed text-sm group-hover:text-white/80 transition-colors">{item.body}</p>
+                </Glass>
+              </motion.div>
+            ))}
+          </div>
+        </MotionSection>
+
       </div>
     </section>
   );

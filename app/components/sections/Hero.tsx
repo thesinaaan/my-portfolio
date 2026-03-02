@@ -1,66 +1,101 @@
-import Link from "next/link";
-import { Button } from "../ui/button";
+"use client";
 
-type HeroProps = {
-  role: string;
-  title: string;
-  subtitle: string;
-  paragraph1: string;
-  paragraph2: string;
-  ctaText: string;
-  ctaLink: string;
-  stack: string;
-};
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import Planet3D from "../ui/Planet3D";
+import { Glass } from "../ui/Glass";
 
-export default function Hero({
-  role,
-  title,
-  subtitle,
-  paragraph1,
-  paragraph2,
-  ctaText,
-  ctaLink,
-  stack,
-}: HeroProps) {
+export default function Hero() {
+  const ref = useRef(null);
+  const { scrollY } = useScroll();
+
+  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
+
   return (
-    <section className="relative overflow-hidden bg-neutral-950 pt-32 pb-40">
-      <div className="absolute inset-0 bg-neutral-950" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_35%_at_50%_0%,rgba(99,102,241,0.18),transparent_70%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03),transparent_40%,transparent_60%,rgba(99,102,241,0.04))]" />
+    <section ref={ref} className="min-h-screen relative flex items-center justify-center overflow-hidden pt-20">
 
-      <div className="relative mx-auto max-w-6xl px-4 md:px-6">
-        <div className="grid items-center gap-16 md:grid-cols-2">
-          {/* LEFT */}
-          <div className="space-y-6">
-            <p className="text-xs uppercase tracking-[0.32em] text-neutral-400">
-              {role}
-            </p>
+      {/* Ambient Moving Gradient */}
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+          rotate: [0, 90, 0]
+        }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-900/20 blur-[120px] rounded-full pointer-events-none z-0"
+      />
 
-            <h1 className="max-w-[640px] text-4xl font-semibold tracking-tight leading-[1.05] text-neutral-100 md:text-5xl lg:text-6xl">
-              {title}
-              <br />
-              <span className="text-neutral-500">{subtitle}</span>
-            </h1>
+      <div className="container mx-auto max-w-7xl px-6 relative z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between">
 
-            <p className="max-w-xl text-neutral-400">{paragraph1}</p>
-            <p className="max-w-xl text-neutral-500">{paragraph2}</p>
+          {/* Text Content */}
+          <div className="w-full md:w-1/2 z-20">
+            {/* Identity Tag - Parallax Slow */}
+            <motion.div
+              style={{ y: y2 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="mb-8"
+            >
+              <Glass intensity="subtle" className="inline-block px-4 py-2 rounded-full">
+                <span className="text-xs font-mono tracking-[0.3em] uppercase text-cyan-400">
+                  System Architecture / UI Engineering
+                </span>
+              </Glass>
+            </motion.div>
 
-            <div className="pt-6">
-              <Button asChild size="lg" className="bg-white text-black rounded-full px-6 py-3 font-medium">
-                <Link href={ctaLink}>{ctaText}</Link>
-              </Button>
-            </div>
+            {/* Headline - Floating Motion */}
+            <motion.div
+              style={{ y: y1 }}
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="mb-8 relative"
+            >
+              <h1 className="text-[12vw] md:text-[6vw] leading-[0.85] font-black text-white mix-blend-difference tracking-tighter drop-shadow-2xl">
+                FULL STACK
+              </h1>
+              <h1 className="text-[12vw] md:text-[6vw] leading-[0.85] font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-500 tracking-tighter drop-shadow-2xl">
+                ENGINEER
+              </h1>
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 1 }}
+              className="text-lg md:text-xl text-neutral-400 font-light max-w-xl mb-12 leading-relaxed drop-shadow-lg"
+            >
+              Building high-performance applications with <br />
+              <span className="text-white font-medium">Next.js</span> and <span className="text-white font-medium">Scalable Architecture</span>.
+              Crafting digital experiences that exist at the intersection of design and engineering.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, filter: "blur(10px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ delay: 0.8, duration: 1 }}
+              className="flex gap-6"
+            >
+              <a href="#work-preview" className="group relative px-6 py-3 overflow-hidden rounded-lg bg-white/5 text-white border border-white/10 hover:border-cyan-500/50 transition-all duration-500">
+                <span className="relative z-10 font-mono text-xs tracking-widest uppercase">View Missions</span>
+                <div className="absolute inset-0 bg-cyan-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+              </a>
+            </motion.div>
           </div>
 
-          {/* RIGHT */}
-          <div>
-            <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-              <p className="text-xs uppercase tracking-widest text-neutral-300">
-                Primary Stack
-              </p>
-              <p className="mt-2 text-sm text-neutral-200">{stack}</p>
-            </div>
-          </div>
+          {/* 3D Planet - Visual Anchor - Mobile Optimized */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="w-full md:w-1/2 h-[50vh] md:h-[80vh] absolute md:relative right-0 bottom-0 md:top-0 opacity-30 md:opacity-100 pointer-events-none md:pointer-events-auto mix-blend-screen md:mix-blend-normal"
+          >
+            <Planet3D />
+          </motion.div>
+
         </div>
       </div>
     </section>

@@ -1,11 +1,11 @@
-import AboutSection from "../components/sections/AboutSection";
-import Skills from "../components/sections/Skills";
+import PageTransition from "@/app/components/ui/PageTransition";
 
 export default function AboutPage() {
   return (
-    <>
-      <AboutSection />
-      <Skills />
-    </>
+    <main className="min-h-screen bg-transparent pt-20">
+      <PageTransition>
+        <AboutSection />
+      </PageTransition>
+    </main>
   );
 }
