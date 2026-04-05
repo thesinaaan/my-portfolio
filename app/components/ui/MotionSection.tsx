@@ -1,8 +1,20 @@
 "use client";
 
 import { motion, HTMLMotionProps } from "framer-motion";
-import { VARIANTS } from "@/lib/motion/constants";
 import { cn } from "@/lib/utils";
+
+// Extracted stagger variants here to keep it self-contained if needed
+const VARIANTS = {
+    staggerContainer: {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+            },
+        },
+    },
+};
 
 interface MotionSectionProps extends HTMLMotionProps<"section"> {
     delay?: number;

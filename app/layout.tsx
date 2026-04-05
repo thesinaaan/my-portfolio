@@ -1,21 +1,30 @@
 import "./globals.css";
-import Navbar from "./components/layout/Navbar";
-import Background3D from "./components/ui/Background3D";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { PageTransition } from "@/components/layout/PageTransition";
 import { cn } from "@/lib/utils";
-import { Inter, Cinzel, JetBrains_Mono } from "next/font/google";
+import { DM_Sans, DM_Serif_Display } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const cinzel = Cinzel({ subsets: ["latin"], variable: "--font-serif" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+import { CustomCursor } from "@/components/ui/CustomCursor";
+import Plasma from "@/app/components/animations/Plasma";
+import CinematicOverlay from "@/app/components/ui/CinematicOverlay";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const dmSerif = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif",
+});
 
 export const metadata = {
-  title: "The Celestial Archive",
-  description: "Interstellar × Computational Architecture",
+  title: "Arjun Dev — Full-stack Engineer",
+  description: "Architecting high-performance web applications with a focus on simplicity and craftsmanship.",
 };
-
-import CinematicOverlay from "./components/ui/CinematicOverlay";
-
-// ... (previous imports)
 
 export default function RootLayout({
   children,
@@ -23,20 +32,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <body className={cn(
-        "min-h-screen bg-[#050505] font-sans text-neutral-100 antialiased selection:bg-cyan-900/50 selection:text-cyan-100",
-        inter.variable,
-        cinzel.variable,
-        jetbrainsMono.variable
+        "min-h-screen font-sans border-t-[3px] border-[var(--sage)] transition-colors duration-300 antialiased",
+        dmSans.variable,
+        dmSerif.variable
       )}>
-        <CinematicOverlay />
-        <Background3D />
-        <Navbar />
-        <main className="relative flex min-h-screen flex-col">
-          {children}
-        </main>
+        <ThemeProvider>
+          <Plasma opacity={0.3} speed={0.4} color="#556b5a" />
+          <CinematicOverlay />
+          <CustomCursor />
+          <div className="portfolio max-w-[940px] mx-auto px-6 md:px-10 flex flex-col min-h-screen relative z-10">
+            <Navbar />
+            <main className="flex-grow">
+              <PageTransition>
+                {children}
+              </PageTransition>
+            </main>
+            <Footer />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
+
+

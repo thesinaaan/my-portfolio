@@ -24,8 +24,8 @@ export const VARIANTS = {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.3,
+                staggerChildren: 0.12,
+                delayChildren: 0.2,
             },
         },
     },
@@ -48,6 +48,24 @@ export const VARIANTS = {
                 duration: DURATION.slow,
                 ease: INTERSTELLAR_EASE
             }
+        }
+    },
+    blurIn: {
+        hidden: { opacity: 0, filter: "blur(10px)" },
+        visible: {
+            opacity: 1,
+            filter: "blur(0px)",
+            transition: {
+                duration: DURATION.base,
+                ease: INTERSTELLAR_EASE
+            }
+        }
+    },
+    hover: {
+        y: -5,
+        transition: {
+            duration: DURATION.fast,
+            ease: INTERSTELLAR_EASE
         }
     }
 };

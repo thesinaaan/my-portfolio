@@ -1,37 +1,25 @@
+import React from "react";
 import Link from "next/link";
-import { Glass } from "./components/ui/Glass";
-import { ArrowLeft } from "lucide-react";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { Button } from "@/components/ui/Button";
 
 export default function NotFound() {
-    return (
-        <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
-
-            {/* Background Glitch Effect (CSS-based) */}
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[1px] bg-cyan-500 blur-[20px] animate-pulse" />
-            </div>
-
-            <div className="relative z-10 text-center space-y-8">
-                <div className="space-y-4">
-                    <span className="text-xs font-bold tracking-[0.5em] uppercase text-red-500/80 animate-pulse">
-                        Error 404
-                    </span>
-                    <h1 className="text-6xl md:text-9xl font-bold tracking-tighter text-white/10 select-none">
-                        LOST
-                    </h1>
-                </div>
-
-                <Glass intensity="high" className="p-8 max-w-md mx-auto border-red-500/20">
-                    <p className="text-lg text-blue-100/70 mb-8 font-light leading-relaxed">
-                        Signal lost. The coordinates you are attempting to reach do not exist in this sector.
-                    </p>
-
-                    <Link href="/" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-400 hover:text-white transition-colors">
-                        <ArrowLeft size={14} />
-                        Return to Orbit
-                    </Link>
-                </Glass>
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex flex-col items-center justify-center py-20 text-center">
+      <GlassCard intensity="heavy" className="max-w-md p-10">
+        <h1 className="font-serif text-[64px] text-[var(--text)] leading-none mb-4">404</h1>
+        <p className="text-[16px] text-[var(--text2)] mb-8 leading-relaxed">
+          The page you're looking for doesn't exist or has been moved to a new coordinate.
+        </p>
+        <Link href="/">
+          <Button variant="primary">Return Home</Button>
+        </Link>
+      </GlassCard>
+      
+      <div className="mt-10 animate-pulse">
+        <div className="w-[1px] h-20 bg-gradient-to-b from-[var(--sage)] to-transparent mx-auto" />
+      </div>
+    </div>
+  );
 }
+
