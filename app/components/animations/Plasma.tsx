@@ -114,7 +114,7 @@ interface PlasmaProps {
 }
 
 export default function Plasma({
-  color = "#6366f1",
+  color = "#06b6d4", // Default to cyan-500 matching the theme
   speed = 0.45,
   opacity = 0.4,
 }: PlasmaProps) {
@@ -187,7 +187,7 @@ export default function Plasma({
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 w-full h-full overflow-hidden"
+      className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-[-1]"
     />
   );
 }

@@ -9,7 +9,8 @@ export default function RevealText({ children, className, delay = 0 }: any) {
     <motion.span
       className={className}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
+      viewport={{ once: true }}
     >
       {letters.map((char: string, i: number) => (
         <motion.span
