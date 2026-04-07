@@ -43,14 +43,14 @@
     50% { opacity: 0.4; }
   }
 
-  body {
+  html, body {
     @apply bg-[var(--bg)] text-[var(--text)] transition-colors duration-300;
     font-family: var(--font-sans);
-    cursor: default;
+    cursor: default !important;
   }
   
-  a, button {
-    cursor: pointer;
+  a, button, [role="button"], input[type="submit"], input[type="button"] {
+    cursor: pointer !important;
   }
 
 }
