@@ -1,14 +1,15 @@
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
-import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { cn } from "@/lib/utils";
 import { DM_Sans, DM_Serif_Display } from "next/font/google";
 
-import { CustomCursor } from "@/components/ui/CustomCursor";
-import Plasma from "@/app/components/animations/Plasma";
-import CinematicOverlay from "@/app/components/ui/CinematicOverlay";
+
+
+
+import { Navbar } from "@/components/layout/Navbar";
+import { ClockPill, DockPill } from "@/components/layout/SpatialPillars";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -22,8 +23,8 @@ const dmSerif = DM_Serif_Display({
 });
 
 export const metadata = {
-  title: "Arjun Dev — Full-stack Engineer",
-  description: "Architecting high-performance web applications with a focus on simplicity and craftsmanship.",
+  title: "Sinan — The Engineer Who Sees",
+  description: "Architecting high-performance web applications with immersive liquid motion.",
 };
 
 export default function RootLayout({
@@ -33,18 +34,27 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
+      <head />
       <body className={cn(
-        "min-h-screen font-sans border-t-[3px] border-[var(--sage)] transition-colors duration-300 antialiased",
+        "min-h-screen font-sans antialiased text-[var(--text)] bg-[var(--bg)] transition-colors duration-300",
         dmSans.variable,
         dmSerif.variable
       )}>
         <ThemeProvider>
-          <Plasma opacity={0.3} speed={0.4} color="#556b5a" />
-          <CinematicOverlay />
-          <CustomCursor />
-          <div className="portfolio max-w-[940px] mx-auto px-6 md:px-10 flex flex-col min-h-screen relative z-10">
-            <Navbar />
-            <main className="flex-grow">
+          {/* Layer 0 — cursor glow, fixed, below everything */}
+
+          
+          {/* Layer 1 — floating pillars and restored Navbar */}
+          <Navbar />
+          <ClockPill />
+          <DockPill />
+          
+          {/* Layer 9999 — custom cursor */}
+
+
+          {/* Layer 2 — page content */}
+          <div className="portfolio w-full flex flex-col min-h-screen relative z-1 selection:bg-[#5DCAA5]/30">
+            <main className="flex-grow w-full">
               <PageTransition>
                 {children}
               </PageTransition>

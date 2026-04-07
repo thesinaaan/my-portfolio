@@ -2,8 +2,8 @@
 
 import React from "react";
 import { SKILL_TIERS } from "@/constants";
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { Section } from "@/components/ui/Section";
+import { GlassCard } from "@/components/ui/GlassCard";
 
 export function ProficiencyTiers() {
   const expert = SKILL_TIERS.filter(s => s.status === "expert");
@@ -11,53 +11,53 @@ export function ProficiencyTiers() {
   const growing = SKILL_TIERS.filter(s => s.status === "growing");
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-      <TierCard title="Expert" skills={expert} color="var(--green)" />
-      <TierCard title="Proficient" skills={proficient} color="var(--blue)" />
-      <TierCard title="Growing" skills={growing} color="var(--amber)" />
-    </div>
+    <Section>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <TierCard title="Expert" skills={expert} color="#5DCAA5" />
+        <TierCard title="Proficient" skills={proficient} color="#3B82F6" />
+        <TierCard title="Growing" skills={growing} color="#F59E0B" />
+      </div>
+    </Section>
   );
 }
 
 function TierCard({ title, skills, color }: { title: string; skills: typeof SKILL_TIERS; color: string }) {
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="glass-card p-5"
-    >
-      <div className="flex items-center gap-2 mb-6">
-        <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: color }} />
-        <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--text3)] font-mono">
+    <GlassCard className="h-full">
+      <div className="flex items-center gap-3 mb-10 pb-4 border-b border-white/5">
+        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--text3)] font-mono">
           {title}
         </span>
       </div>
-      <div className="space-y-4">
-        {skills.map((skill, idx) => (
-          <div key={skill.name} className="skill-item">
-            <div className="flex justify-between items-center mb-1.5">
-              <span className="text-[14px] font-medium text-[var(--text)]">{skill.name}</span>
-              <span className="text-[11px] text-[var(--text3)] font-mono">{skill.years}</span>
+      
+      <ul className="space-y-6">
+        {skills.map((skill) => (
+          <li key={skill.name} className="flex flex-col gap-1">
+            <div className="flex items-center justify-between">
+              <span className="text-[17px] font-light text-[var(--text)] tracking-tight">
+                {skill.name}
+              </span>
+              <span className="text-[10px] uppercase font-mono text-[var(--text3)] tracking-widest px-2 py-0.5 rounded-md bg-white/5 border border-white/5">
+                {skill.years}
+              </span>
             </div>
-            <div className="h-[3px] w-full bg-[var(--border)] rounded-full overflow-hidden">
-              <motion.div 
-                initial={{ width: 0 }}
-                whileInView={{ width: getWidth(skill.status) }}
-                transition={{ duration: 1, delay: idx * 0.1 }}
-                className="h-full"
-                style={{ backgroundColor: color }}
-              />
+            <div className="flex gap-1.5 opacity-40">
+              {/* Subtle status indicators replaced from heavy bars */}
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div 
+                  key={i} 
+                  className="h-1 w-4 rounded-full" 
+                  style={{ 
+                    backgroundColor: i < (title === "Expert" ? 3 : title === "Proficient" ? 2 : 1) ? color : "white",
+                    opacity: i < (title === "Expert" ? 3 : title === "Proficient" ? 2 : 1) ? 1 : 0.1
+                  }}
+                />
+              ))}
             </div>
-          </div>
+          </li>
         ))}
-      </div>
-    </motion.div>
+      </ul>
+    </GlassCard>
   );
-}
-
-function getWidth(status: string) {
-  if (status === "expert") return "85%";
-  if (status === "proficient") return "60%";
-  return "35%";
 }

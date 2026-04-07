@@ -1,86 +1,77 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { Section } from "@/components/ui/Section";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { AlertCircle, CheckCircle2 } from "lucide-react";
 
 export function StackComparison() {
   return (
-    <div className="mb-16">
-      <div className="section-eyebrow text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--text3)] mb-8 font-mono">
-        What changed in 2026 — old vs new approach
+    <Section>
+      <div className="section-eyebrow text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--text3)] mb-10 font-mono">
+        The 2026 Shift — Engineering Evolution
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Old Card */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="p-6 bg-[var(--bg-surface)] dark:bg-[var(--bg2)] rounded-[14px] border border-[var(--border)]"
-        >
-          <span className="text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--text3)] mb-6 block font-mono">
-            Old (Avoid)
-          </span>
-          <div className="space-y-4">
-            <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-[13px] text-[var(--text2)]">
-                <span>HTML</span>
-                <span>90%</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Old Card: The Legacy Pattern */}
+        <GlassCard padding="p-10" className="border-red-500/10">
+          <div className="flex items-center gap-3 mb-8">
+            <AlertCircle size={20} className="text-red-500/60" />
+            <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-red-500/60 font-mono">
+              Legacy Approach (Avoid)
+            </span>
+          </div>
+          
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm text-[var(--text2)]">
+                <span className="font-light">Meaningless Progress Bars</span>
+                <span className="font-mono text-xs">90%</span>
               </div>
-              <div className="h-[2px] bg-[var(--border2)] rounded-full">
-                <div className="h-full bg-[var(--text3)] w-[90%]" />
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-[13px] text-[var(--text2)]">
-                <span>CSS</span>
-                <span>75%</span>
-              </div>
-              <div className="h-[2px] bg-[var(--border2)] rounded-full">
-                <div className="h-full bg-[var(--text3)] w-[75%]" />
+              <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-white/20 w-[90%]" />
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-[13px] text-[var(--text2)]">
-                <span>JS</span>
-                <span>85%</span>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm text-[var(--text2)]">
+                <span className="font-light">Skill Inflation</span>
+                <span className="font-mono text-xs">85%</span>
               </div>
-              <div className="h-[2px] bg-[var(--border2)] rounded-full">
-                <div className="h-full bg-[var(--text3)] w-[85%]" />
+              <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-full bg-white/20 w-[85%]" />
               </div>
             </div>
-            <p className="text-[13px] text-[var(--text3)] pt-4 border-t border-[var(--border)] leading-relaxed italic">
-              Logo grid of 20 tools. No depth signal at all. Percentage bars are meaningless.
+            <p className="text-[14px] text-[var(--text3)] pt-6 border-t border-white/5 leading-relaxed italic font-light">
+              Logo grids and pseudo-metric bars that offer zero technical signal. Percentage bars are subjective and unverifiable.
             </p>
           </div>
-        </motion.div>
+        </GlassCard>
 
-        {/* New Card */}
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="p-6 bg-[var(--green-light)] rounded-[14px] border border-[var(--border-accent)]"
-        >
-          <span className="text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--green-text)] mb-6 block font-mono">
-            2026 (Use This)
-          </span>
-          <div className="space-y-3">
+        {/* New Card: The Production Pattern */}
+        <GlassCard padding="p-10" className="border-[#5DCAA5]/20">
+          <div className="flex items-center gap-3 mb-8">
+            <CheckCircle2 size={20} className="text-[#5DCAA5]" />
+            <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#5DCAA5] font-mono">
+              2026 Standard (Engineered)
+            </span>
+          </div>
+          
+          <div className="space-y-5">
             {[
-              "3-tier depth: Expert / Proficient / Growing",
-              "Years + thin bar — honest, not inflated",
-              "AI / emerging tech column shows curiosity",
-              "\"Currently building with\" live signal",
-              "Categories: frontend, backend, tooling, AI",
+              "3-tier depth signals (Expert / Proficient / Growing)",
+              "Time-based metadata (Years of Production)",
+              "Live 'Current Build' activity signal",
+              "AI & Infrastructure hierarchy",
+              "Production-grade context vs. vanity metrics",
             ].map((text, idx) => (
-              <div key={idx} className="flex items-center gap-2 text-[14px] text-[var(--green-text)] font-medium">
-                <div className="w-1 h-1 rounded-full bg-[var(--green)]" />
-                {text}
+              <div key={idx} className="flex items-start gap-3.5 text-[15px] text-[var(--text2)] font-light leading-snug">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#5DCAA5] mt-2 mb-2" />
+                <span>{text}</span>
               </div>
             ))}
           </div>
-        </motion.div>
+        </GlassCard>
       </div>
-    </div>
+    </Section>
   );
 }

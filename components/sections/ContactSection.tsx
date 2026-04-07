@@ -1,42 +1,113 @@
 "use client";
 
 import React from "react";
-import { CONTACT_CONTENT } from "@/constants";
-import { Button } from "@/components/ui/Button";
+import { Mail, Linkedin, Github, Calendar, Send } from "lucide-react";
+import { Section } from "@/components/ui/Section";
+import { GlassCard } from "@/components/ui/GlassCard";
+
+const contactLinks = [
+  { icon: <Mail size={18} />, label: "Email", value: "hello@sinan.dev", href: "mailto:hello@sinan.dev" },
+  { icon: <Linkedin size={18} />, label: "LinkedIn", value: "Sinan Sinan", href: "https://linkedin.com/in/sinan" },
+  { icon: <Github size={18} />, label: "GitHub", value: "thesinan", href: "https://github.com/thesinan" },
+];
 
 export function ContactSection() {
   return (
-    <section className="mb-20">
-      <div className="section-label text-[11px] uppercase tracking-[0.2em] text-[var(--text3)] mb-8">
-        Hire me
-      </div>
-      
-      <div className="contact-glass contact-glass-premium p-8 md:p-12 text-center backdrop-blur-lg mb-8">
-        <h2 className="font-serif text-[32px] md:text-[44px] font-normal mb-3 text-[var(--text)]">
-          {CONTACT_CONTENT.headline}
+    <Section className="border-t border-white/5">
+      {/* 1. Hero / Intro Header */}
+      <div className="text-center mb-24">
+        <h2 className="text-5xl md:text-7xl font-serif text-[var(--text)] mb-6 tracking-tight">
+          Start a project.
         </h2>
-        <p className="text-[14px] md:text-[16px] text-[var(--text2)] max-w-xl mx-auto mb-10 leading-relaxed">
-          {CONTACT_CONTENT.description}
+        <p className="text-lg md:text-xl text-[var(--text2)] max-w-2xl mx-auto font-light leading-relaxed">
+          Usually responds within 24 hours. Let&apos;s engineer something together.
         </p>
-        <div className="contact-ctas flex flex-wrap justify-center gap-3">
-          <Button variant="primary">Send an email</Button>
-          <Button variant="secondary">Schedule 20 min call</Button>
-          <Button variant="secondary">Download résumé PDF</Button>
-        </div>
       </div>
 
-      <div className="avail-cards grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-        {CONTACT_CONTENT.availableCards.map((card, idx) => (
-          <div key={idx} className="avail-card bg-[var(--bg3)] border border-[var(--border)] rounded-[12px] p-4 text-center shadow-sm">
-            <div className="av-label text-[11px] text-[var(--text3)] uppercase tracking-wider mb-1">
-              {card.label}
-            </div>
-            <div className="av-val text-[13px] md:text-[14px] font-medium text-[var(--text)]">
-              {card.value}
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        {/* 2. Direct Channels: Left Column */}
+        <div className="lg:col-span-12 xl:col-span-7 space-y-8">
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[var(--text3)] mb-8 font-mono">
+            Direct Channels
           </div>
-        ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {contactLinks.map((link, i) => (
+              <a 
+                key={i}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+              >
+                <GlassCard className="hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300">
+                  <div className="flex items-center gap-6">
+                    <div className="text-[#5DCAA5] group-hover:scale-110 transition-transform duration-300">
+                      {link.icon}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[10px] uppercase font-mono text-[var(--text3)] tracking-widest mb-1">{link.label}</span>
+                      <span className="text-[15px] font-medium text-[var(--text)]">{link.value}</span>
+                    </div>
+                  </div>
+                </GlassCard>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* 3. Action Hierarchy: Right Column */}
+        <div className="lg:col-span-12 xl:col-span-5 space-y-8">
+          <div className="text-[11px] uppercase tracking-[0.2em] text-[var(--text3)] mb-8 font-mono">
+            Structured Requests
+          </div>
+
+          <div className="flex flex-col gap-4">
+            {/* Primary Action Card */}
+            <a href="#" className="group block">
+              <GlassCard className="border-[#3B82F6]/20 bg-[#3B82F6]/5 hover:bg-[#3B82F6]/10 transition-all h-full">
+                <div className="flex gap-5">
+                  <div className="w-12 h-12 rounded-xl bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center text-[#3B82F6]">
+                    <Calendar size={22} />
+                  </div>
+                  <div>
+                    <h4 className="text-[18px] font-medium text-[var(--text)] mb-1">Book discovery session</h4>
+                    <p className="text-[13px] text-[var(--text2)] font-light leading-relaxed mb-4">
+                      30-minute technical deep dive & strategy call to review your goals.
+                    </p>
+                    <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#3B82F6] uppercase tracking-wider font-mono">
+                      <span>Reserve Slot</span>
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                </div>
+              </GlassCard>
+            </a>
+
+            {/* Secondary Action Card */}
+            <a href="mailto:hello@sinan.dev" className="group block">
+              <GlassCard className="hover:bg-white/[0.08] transition-all h-full">
+                <div className="flex gap-5">
+                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[var(--text3)]">
+                    <Send size={22} />
+                  </div>
+                  <div>
+                    <h4 className="text-[18px] font-medium text-[var(--text)] mb-1">Initiate direct brief</h4>
+                    <p className="text-[13px] text-[var(--text2)] font-light leading-relaxed mb-4">
+                      Submit a project overview, technical requirements, and goals via direct email.
+                    </p>
+                    <div className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[var(--text3)] group-hover:text-white uppercase tracking-wider font-mono">
+                      <span>Send Outline</span>
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                </div>
+              </GlassCard>
+            </a>
+          </div>
+        </div>
+
       </div>
-    </section>
+    </Section>
   );
 }

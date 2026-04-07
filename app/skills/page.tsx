@@ -1,55 +1,52 @@
-"use client";
-
 import React from "react";
-import { motion } from "framer-motion";
+import { Section } from "@/components/ui/Section";
 import { ProficiencyTiers } from "@/components/sections/skills/ProficiencyTiers";
 import { TechCategories } from "@/components/sections/skills/TechCategories";
 import { CurrentBuild } from "@/components/sections/skills/CurrentBuild";
 import { StackComparison } from "@/components/sections/skills/StackComparison";
 import { StrategyBlocks } from "@/components/sections/skills/StrategyBlocks";
+import Link from "next/link";
 
 export default function SkillsPage() {
   return (
-    <div className="pt-10 pb-20 max-w-[900px] mx-auto">
-      {/* Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-12"
-      >
-        <span className="text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--text3)] mb-2 block font-mono">
-          Technical skills
-        </span>
-        <h1 className="text-[36px] font-medium text-[var(--text)] tracking-[-0.03em] leading-tight">
-          Stack & depth
+    <div className="flex flex-col">
+      {/* 1. Hero Section (Standardized padding) */}
+      <Section className="text-center pt-32 pb-16">
+        <h1 className="text-5xl md:text-7xl font-serif text-[var(--text)] mb-6 tracking-tight">
+          Stack & Depth
         </h1>
-      </motion.div>
+        <p className="text-lg md:text-xl text-[var(--text2)] max-w-3xl mx-auto leading-relaxed">
+          A breakdown of my technical expertise, categorized by depth of experience and real-world application. No inflated bars, just honest signals.
+        </p>
+      </Section>
 
-      {/* Grid of expert/proficient/growing */}
+      {/* 2. Proficiency Grid (3-Column Layout) */}
       <ProficiencyTiers />
 
-      {/* Categorized blocks */}
+      {/* 3. Tech Categories Stack */}
       <TechCategories />
 
-      {/* Currently building signal */}
+      {/* 4. Current Focus Indicator */}
       <CurrentBuild />
 
-      {/* Comparison: Old vs New */}
+      {/* 5. Old vs New Comparison (Narrative) */}
       <StackComparison />
 
-      {/* Strategy / Narrative blocks */}
+      {/* 6. Strategic Philosophy Blocks */}
       <StrategyBlocks />
-      
+
       {/* Footer / CTA links */}
-      <div className="mt-12 pt-8 border-t border-[var(--border)] flex justify-between items-center text-[13px]">
-        <span className="text-[var(--text3)]">Last updated April 2026</span>
-        <a 
-          href="/work" 
-          className="text-[var(--text)] hover:text-[var(--sage)] transition-colors flex items-center gap-1.5 font-medium"
-        >
-          View projects in production <span className="text-[11px]">↗</span>
-        </a>
-      </div>
+      <Section className="pt-0 pb-32">
+        <div className="flex justify-between items-center text-[13px] border-t border-white/5 pt-12">
+          <span className="text-[var(--text3)]">Last updated April 2026</span>
+          <Link 
+            href="/work" 
+            className="text-[var(--text)] hover:text-[var(--text3)] transition-colors flex items-center gap-1.5 font-medium"
+          >
+            Review implementations <span className="text-[11px]">↗</span>
+          </Link>
+        </div>
+      </Section>
     </div>
   );
 }
