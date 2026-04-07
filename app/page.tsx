@@ -1,25 +1,30 @@
 import { HeroSection } from "@/components/sections/HeroSection";
+import { AboutSection } from "@/components/sections/AboutSection";
+import { TechSection } from "@/components/sections/TechSection";
 import { StatsBarSection } from "@/components/sections/StatsBarSection";
 import { ProjectGrid } from "@/components/sections/ProjectGrid";
+import { ContactSection } from "@/components/sections/ContactSection";
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
+      {/* 1. Engineered Hero */}
       <HeroSection />
+
+      {/* 2. Global Metric Signal */}
       <StatsBarSection />
+
+      {/* 3. Operational Narrative */}
+      <AboutSection />
+
+      {/* 4. Tech Topology */}
+      <TechSection />
+
+      {/* 5. Production Archive (Simplified for performance) */}
       <ProjectGrid featuredOnly />
-      
-      <div className="mt-20 text-center pb-20">
-        <p className="text-[13px] text-[var(--text3)] mb-4 uppercase tracking-widest">
-          Curated selection of work
-        </p>
-        <a 
-          href="/work" 
-          className="text-[15px] text-[var(--text)] font-serif no-underline border-b border-[var(--text)] pb-0.5 hover:text-[var(--sage)] hover:border-[var(--sage)] transition-colors"
-        >
-          View all projects →
-        </a>
-      </div>
+
+      {/* 6. Context-Aware Contact */}
+      <ContactSection />
     </div>
   );
 }

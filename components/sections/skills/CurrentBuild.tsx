@@ -2,33 +2,31 @@
 
 import React from "react";
 import { CURRENTLY_BUILDING } from "@/constants";
-import { motion } from "framer-motion";
-import { Clock } from "lucide-react";
+import { Section } from "@/components/ui/Section";
+import { GlassCard } from "@/components/ui/GlassCard";
+import { Activity } from "lucide-react";
 
 export function CurrentBuild() {
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="glass-card p-6 mb-12 flex items-center gap-4 border-[var(--border-accent)]"
-    >
-      <div className="w-12 h-12 rounded-[12px] bg-[var(--bg-surface)] flex items-center justify-center text-[var(--text2)]">
-        <Clock size={20} />
-      </div>
-      <div>
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[var(--blue-text)] bg-[var(--blue-light)] px-2 py-0.5 rounded-full font-mono">
-            Currently building with
-          </span>
+    <Section>
+      <GlassCard padding="p-8" className="flex flex-col md:flex-row items-start md:items-center gap-6 border-white/10">
+        <div className="w-14 h-14 rounded-[16px] bg-white/5 flex items-center justify-center text-[#3B82F6] border border-white/10 shadow-inner">
+          <Activity size={24} />
         </div>
-        <h4 className="text-[15px] font-medium text-[var(--text)] mb-0.5 tracking-tight">
-          {CURRENTLY_BUILDING.title}
-        </h4>
-        <p className="text-[13px] text-[var(--text2)] font-light leading-relaxed">
-          {CURRENTLY_BUILDING.description}
-        </p>
-      </div>
-    </motion.div>
+        <div className="flex-1">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#3B82F6] bg-white/5 px-2.5 py-1 rounded-md font-mono border border-white/5">
+              Current Node
+            </span>
+          </div>
+          <h4 className="text-[20px] font-medium text-[var(--text)] mb-2 tracking-tight">
+            {CURRENTLY_BUILDING.title}
+          </h4>
+          <p className="text-[15px] text-[var(--text2)] font-light leading-relaxed max-w-2xl">
+            {CURRENTLY_BUILDING.description}
+          </p>
+        </div>
+      </GlassCard>
+    </Section>
   );
 }

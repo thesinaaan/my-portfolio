@@ -1,63 +1,72 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { GlassCard } from "@/components/ui/GlassCard";
-import RevealText from "@/app/components/animations/RevealText";
-import Reveal from "@/app/components/animations/Reveal";
-import { HERO_CONTENT, GLASS_STATS } from "@/constants";
+import { useEffect, useState } from 'react'
+import { FluidFlow } from "@/components/animations/FluidFlow"
+import { HeroBackground } from "@/components/ui/HeroBackground"
+import { Section } from "@/components/ui/Section"
 
+// ── Hero ─────────────────────────────────────────────────────────────
 export function HeroSection() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
+
+  // Don't render on server to prevent hydration mismatch
+  if (!mounted) return null
+
   return (
-    <section className="hero hero-frost grid grid-cols-1 md:grid-cols-[1fr_260px] gap-10 mb-20 items-start pt-10">
-      <div className="hero-left relative z-10">
-        <Badge className="mb-6">{HERO_CONTENT.status}</Badge>
-        <h1 className="font-serif text-[44px] md:text-[56px] font-normal line-height-[1.15] mb-4 text-[var(--text)]">
-          <RevealText delay={0.1}>Building </RevealText>
-          <em className="italic text-[var(--sage)] not-italic"><RevealText delay={0.3}>{HERO_CONTENT.headlineEmphasis}</RevealText></em><br />
-          <RevealText delay={0.5}>that feel inevitable.</RevealText>
-        </h1>
-        <Reveal delay={0.7}>
-          <p className="hero-desc text-[15px] text-[var(--text2)] max-w-[440px] mb-8 leading-[1.7]">
-            {HERO_CONTENT.description}
+    <>
+      <HeroBackground />
+
+      <section
+        id="home"
+        className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      >
+        {/* FluidFlow sits here as fixed bg — z-index -1 */}
+        <FluidFlow />
+
+        <Section className="text-center relative z-10 py-0">
+          {/* Identity Eyebrow */}
+          <div className="text-[12px] font-bold uppercase tracking-[0.4em] text-[#5DCAA5] mb-8 font-mono">
+            Sinan · Full Stack Developer
+          </div>
+
+          {/* New Engineered Headline */}
+          <h1 className="text-5xl md:text-8xl font-serif text-white mb-8 tracking-tighter leading-[1.05] max-w-5xl mx-auto text-balance">
+            Interfaces engineered for <br className="hidden md:block" />
+            <span className="opacity-60">scale, speed, and clarity.</span>
+          </h1>
+
+          {/* Value Proposition Subtext */}
+          <p className="text-lg md:text-2xl text-white/50 max-w-2xl mx-auto leading-relaxed mb-12 font-light">
+            Focused on system-driven UI architecture and production-grade software integration.
           </p>
-        </Reveal>
-        <Reveal delay={0.8}>
-          <div className="stack-pills flex flex-wrap gap-1.5 mb-8">
-            {HERO_CONTENT.stack.map((pill) => (
-              <span key={pill} className="pill text-[12px] px-3 py-1 rounded-full bg-[var(--bg2)] border border-[var(--border2)] text-[var(--text2)] transition-colors hover:border-[var(--sage-mid)] hover:text-[var(--text)] cursor-default">
-                {pill}
-              </span>
-            ))}
+
+          {/* CTA Group */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href="/work"
+              className="px-8 py-4 rounded-full bg-white/10 text-white border border-white/10 backdrop-blur-xl hover:bg-white/15 transition-all text-sm font-medium tracking-wide shadow-inner"
+            >
+              View Selected Work ↓
+            </a>
+            <a
+              href="/contact"
+              className="px-8 py-4 rounded-full bg-transparent text-white/60 border border-white/5 hover:border-white/20 transition-all text-sm font-light tracking-wide"
+            >
+              Start a project
+            </a>
           </div>
-        </Reveal>
-        <Reveal delay={0.9}>
-          <div className="hero-ctas flex gap-3">
-            <Button variant="primary">{HERO_CONTENT.primaryCTA}</Button>
-            <Button variant="secondary">{HERO_CONTENT.secondaryCTA}</Button>
+
+          {/* Kerala Signal */}
+          <div className="mt-16 flex items-center justify-center gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#28C840] shadow-[0_0_8px_rgba(40,200,64,0.6)]" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-white/30 font-mono">
+              Kerala, India
+            </span>
           </div>
-        </Reveal>
-      </div>
-      
-      <div className="hero-right flex flex-col gap-3 hidden md:flex">
-        {GLASS_STATS.map((stat, idx) => (
-          <GlassCard key={idx} active={idx === 2}>
-            <div className="label text-[11px] uppercase tracking-wider text-[var(--text3)] mb-1">
-              {stat.label}
-            </div>
-            <div className="value text-[22px] font-medium text-[var(--text)] line-height-[1.2]">
-              {stat.value}
-            </div>
-            {stat.sub && (
-              <div className="sub text-[12px] text-[var(--text2)] mt-0.5">
-                {stat.sub}
-              </div>
-            )}
-          </GlassCard>
-        ))}
-      </div>
-    </section>
-  );
+        </Section>
+      </section>
+    </>
+  )
 }
